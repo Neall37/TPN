@@ -105,15 +105,15 @@ def process_species_data(df, h5_name, uni_length=20000, datatype='labeled'):
 
 
 if __name__ == "__main__":
-     df = pd.read_csv('unlabel.csv')
+     df = pd.read_csv('labeled.csv')
      step_size = 3400  # 5 files
      idx = 0
      for i in range(5000, 22000, step_size):
          ave = i+step_size
-         # Filter DataFrame for ProteinCount between 6000 and 7000
+         # Filter DataFrame for ProteinCount between X and X+step_size
          filtered_df = df[(df['Protein_count'] >= i) & (df['Protein_count'] <= i+step_size)]
          positions_idx = process_species_data(df=filtered_df, uni_length=ave,
-                                              h5_name=f"unlabeled_test_{i}.h5", datatype='unlabeled')
+                                              h5_name=f"labeled_train_{i}.h5", datatype='labeled')
 
 
 
