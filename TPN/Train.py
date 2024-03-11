@@ -154,7 +154,6 @@ def training_model(index_file, index_file_test=None):
     # Define according to your dataset size and batch size
     total_num_samples = len(index)
     steps_per_epoch = int(total_num_samples / batch_size)
-    os.makedirs(checkpoint_dir, exist_ok=True)
     for epoch_i in range(num_epochs):
         model.train()  # Set the model to train mode
         accumulation_steps = 1
