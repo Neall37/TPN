@@ -175,7 +175,7 @@ if __name__ == "__main__":
                    ]
     species_name = ["Verticillium_alfalfae", "Verticillium_dahliae","Verticillium_nonalfalfae","human"]
     with h5py.File(h5_name, 'w') as hdf:
-        hdf.create_dataset('sequences', shape=(0, 1280, uni_length), maxshape=(None, 1280, uni_length), dtype='float32')
+        hdf.create_dataset('sequences', shape=(0, 480, uni_length), maxshape=(None, 480, uni_length), dtype='float32')
         if datatype == 'labeled':
             # Define a compound data type with two integers
             dt = np.dtype([('label1', np.int32), ('label2', np.int32)])
@@ -183,8 +183,8 @@ if __name__ == "__main__":
             hdf.create_dataset('labels', shape=(0,), maxshape=(None,), dtype=dt)
         for i,fasta_file in enumerate(fasta_files):
             try:
-                # Process sequences to get a tensoresm2_t12_35M_UR50D,esm2_t33_650M_UR50D,esm2_t36_3B_UR50D
-                sequence, label_order = get_embedding(model_location="esm2_t36_3B_UR50D", fasta_file=fasta_file,
+                # Process sequences to get a tensor,esm2_t12_35M_UR50D,esm2_t33_650M_UR50D,esm2_t36_3B_UR50D
+                sequence, label_order = get_embedding(model_location="esm2_t12_35M_UR50D", fasta_file=fasta_file,
                               output_dir=None, species=species_name[i], target_length=uni_length)
                 tensor_cpu = sequence.cpu()  # Move the tensor to CPU
                 tensor_np = tensor_cpu.numpy()
