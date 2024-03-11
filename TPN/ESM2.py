@@ -162,16 +162,16 @@ def get_embedding(model_location: str, fasta_file, species, output_dir=None,
 
 
 if __name__ == "__main__":
-    h5_name = "C:\\Origin\\Research\\iid\\TBN_code\\eval\\Verticillium_eval_esm2_t36_3B_UR50D.h5"
+    h5_name = "Verticillium_eval_esm2_t36_3B_UR50D.h5"
     uni_length = 100
     datatype = 'unlabeled'
     positions_idx = []
     # Update these mappings to match your labels
     label_to_index_1 = {'hypha': 0, 'non_mycelium': 1}
     label_to_index_2 = {'Saprotrophs': 0, 'parasite': 1, 'Symbionts': 2, 'Pathogens': 3}
-    fasta_files = ["G:\\我的云端硬盘\\TBN\\eval_data\\csv\\UMAP\\seqdump.txt",
-                   "G:\\我的云端硬盘\\TBN\\eval_data\\csv\\UMAP\\seqdump (1).txt",
-                   "G:\\我的云端硬盘\\TBN\\eval_data\\csv\\UMAP\\seqdump (2).txt"
+    fasta_files = ["seqdump.txt",
+                   "seqdump (1).txt",
+                   "seqdump (2).txt"
                    ]
     species_name = ["Verticillium_alfalfae", "Verticillium_dahliae","Verticillium_nonalfalfae","human"]
     with h5py.File(h5_name, 'w') as hdf:
