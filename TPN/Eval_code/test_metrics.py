@@ -169,42 +169,42 @@ def evaluate_model(model, datasets_loader):
         f"Precision: {precision_category_2}, Recall: {recall_category_2}, F1: {f1_category_2}, AUROC: {auroc_category_2}")
 
 
-
-random.seed(42)
-# channels = 240
-# num_layers = 5
-# in_channels = 480
-# pooling_type = 'max'
-# target_percentage = 0.8
-# stack_layer_num = 3  # When change this, don't forget to change it in collate_batch
-# model = TraitProtNet(channels=channels, in_channels=in_channels, stack_layer_num=stack_layer_num,
-#                      layers_num=num_layers,
-#                      pooling_type=pooling_type, target_percentage=target_percentage)
-model = BPNet()
-# Path to your checkpoint file
-#checkpoint_path = 'TBNGELU2_25_checkpoint_epoch_250.pth'
-checkpoint_path = 'BPNet_checkpoint_epoch_100.pth'
-# Load the checkpoint
-checkpoint = torch.load(checkpoint_path)
-
-# Load the state dict into the model
-model.load_state_dict(checkpoint['model_state_dict'])
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = model.to(device)
-batch_size = 32
-num_workers = 0
-index_file_test = "idx_test_ssh_1.csv"
-# Read the CSV file
-df_test = pd.read_csv(index_file_test, encoding='gbk')
-# Convert the dataframe to a list of tuples
-index_test = list(df_test.itertuples(index=False, name=None))
-# List of file names
-file_names_test = [f"{i[0]}" for i in index_test]
-# Initialize your dataset
-dataset_test = LargeHDF5Dataset(hdf5_files=file_names_test, index=index_test, data_type='labeled')
-test_loader = DataLoader(dataset_test, batch_size=batch_size,
-                         shuffle=True, num_workers=num_workers, collate_fn=collate_batch)
-
-evaluate_model(model, test_loader)
+if __name__ == "__main__":
+    random.seed(42)
+    # channels = 240
+    # num_layers = 5
+    # in_channels = 480
+    # pooling_type = 'max'
+    # target_percentage = 0.8
+    # stack_layer_num = 3  # When change this, don't forget to change it in collate_batch
+    # model = TraitProtNet(channels=channels, in_channels=in_channels, stack_layer_num=stack_layer_num,
+    #                      layers_num=num_layers,
+    #                      pooling_type=pooling_type, target_percentage=target_percentage)
+    model = BPNet()
+    # Path to your checkpoint file
+    #checkpoint_path = 'TBNGELU2_25_checkpoint_epoch_250.pth'
+    checkpoint_path = 'BPNet_checkpoint_epoch_100.pth'
+    # Load the checkpoint
+    checkpoint = torch.load(checkpoint_path)
+    
+    # Load the state dict into the model
+    model.load_state_dict(checkpoint['model_state_dict'])
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
+    batch_size = 32
+    num_workers = 0
+    index_file_test = "idx_test_ssh_1.csv"
+    # Read the CSV file
+    df_test = pd.read_csv(index_file_test, encoding='gbk')
+    # Convert the dataframe to a list of tuples
+    index_test = list(df_test.itertuples(index=False, name=None))
+    # List of file names
+    file_names_test = [f"{i[0]}" for i in index_test]
+    # Initialize your dataset
+    dataset_test = LargeHDF5Dataset(hdf5_files=file_names_test, index=index_test, data_type='labeled')
+    test_loader = DataLoader(dataset_test, batch_size=batch_size,
+                             shuffle=True, num_workers=num_workers, collate_fn=collate_batch)
+    
+    evaluate_model(model, test_loader)
 
 
