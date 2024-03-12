@@ -45,12 +45,11 @@ def fetch_sequences_in_batches(sequence_ids, batch_size=9999):
     return sequences
 
 
-def process_species_data(df, h5_name, uni_length=20000, datatype='labeled'):
+def process_species_data(df, h5_name, uni_length=20000, datatype='labeled',
+                        label_to_index_1 = {'hypha': 0, 'non_mycelium': 1},
+                        label_to_index_2 = {'Saprotrophs': 0, 'parasite': 1, 'Symbionts': 2, 'Pathogens': 3}):
     positions_idx = []
-    # Update these mappings to match your labels
-    label_to_index_1 = {'hypha': 0, 'non_mycelium': 1}
-    label_to_index_2 = {'Saprotrophs': 0, 'parasite': 1, 'Symbionts': 2, 'Pathogens': 3}
-
+    
     # Initialize HDF5 file for storage
     with h5py.File(h5_name, 'w') as hdf:
         hdf.create_dataset('sequences', shape=(0, 480, uni_length), maxshape=(None, 480, uni_length), dtype='float32')
@@ -105,15 +104,19 @@ def process_species_data(df, h5_name, uni_length=20000, datatype='labeled'):
 
 
 if __name__ == "__main__":
-     df = pd.read_csv('labeled.csv')
-     step_size = 3400  # 5 files
-     idx = 0
-     for i in range(5000, 22000, step_size):
-         ave = i+step_size
-         # Filter DataFrame for ProteinCount between X and X+step_size
-         filtered_df = df[(df['Protein_count'] >= i) & (df['Protein_count'] <= i+step_size)]
-         positions_idx = process_species_data(df=filtered_df, uni_length=ave,
-                                              h5_name=f"labeled_train_{i}.h5", datatype='labeled')
+    # Prepare your csv file containing species name, protein count and labels
+    df = pd.read_csv('labeled.csv')
+    step_size = 3400  # 5 files
+    idx = 0
+    for i in range(5000, 22000, step_size):
+        ave = i+step_size
+        # Filter DataFrame for ProteinCount between X and X+step_size
+        filtered_df = df[(df['Protein_count'] >= i) & (df['Protein_count'] <= i+step_size)]
+        # please change you label mapping accordingly
+        positions_idx = process_species_data(df=filtered_df, uni_length=ave,
+                                             h5_name=f"labeled_train_{i}.h5", datatype='labeled',
+                                             label_to_index_1 = {'hypha': 0, 'non_mycelium': 1},
+                                             label_to_index_2 = {'Saprotrophs': 0, 'parasite': 1, 'Symbionts': 2, 'Pathogens': 3})
 
 
 
