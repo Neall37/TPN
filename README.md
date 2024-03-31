@@ -7,7 +7,7 @@ TraitProtNet emerges as a groundbreaking framework that leverages deep learning 
 
 # Citations
 If you find the model useful in your research, we ask that you cite the relevant paper: 
-```
+```bibtex
 @article{TPN2024,
   title={TraitProtNet: Deciphering the Genome for Trait Prediction with Interpretable Deep Learning},
   author={Sijun Wang},
